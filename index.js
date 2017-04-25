@@ -76,7 +76,6 @@ AntDispatcher = {
 
         d3.select("#plain").on('click',  function(data, index) {
             var evt0 = window.event  || d3.event;
-            console.log(data, index);
             ants.forEach(function(element){
                 element.stopAnt(10);
             });
@@ -209,19 +208,20 @@ var Ant = {
         var distance = Math.sqrt(Math.pow(event.pageX - this.translateX, 2) +
             Math.pow(event.pageY - this.translateY, 2));
         var time_exec = distance/velocity;
+
+        var rotate = 'translate('+ this.translateX +', '+ this.translateY +')' +
+            'rotate('+this.angle_deg +')';
         this.translateX = event.pageX;
         this.translateY = event.pageY;
-        this.elementCenterX = this.translateX + this.width/2;
-        this.elementCenterY = this.translateY + this.height/2;
-
-        var transform = 'translate('+ this.translateX +', '+ this.translateY +')' +
+        var translate= 'translate('+ this.translateX +', '+ this.translateY +')' +
             'rotate('+this.angle_deg +')';
-
-        var animation = this.animateAnt(time_exec+300);
+        this.animateAnt(time_exec+this.dimension*1000);
         _this.transition()
-            .delay(300)
+            .duration(this.dimension*1000)
+            .attr("transform", rotate)
+            .transition()
+            .attr("transform", translate)
             .duration(time_exec)
-            .attr("transform", transform);
         },
 
 
@@ -242,8 +242,7 @@ var Ant = {
         if (coords.length !== 0) {
             this.translateX = coords[0];
             this.translateY = coords[1];
-            this.elementCenterY = this.translateY + this.height/2;
-            this.elementCenterX = this.translateX + this.width/2;
+
         }
         this.angle_deg = this.degree(x, y);
 
@@ -251,20 +250,20 @@ var Ant = {
 
         var time_exec = distance/velocity;
 
+
+        var rotate = 'translate('+ this.translateX +', '+ this.translateY +')' +
+            'rotate('+this.angle_deg +')';
         this.translateX = x;
         this.translateY = y;
-        this.elementCenterX = this.translateX + this.width/2;
-        this.elementCenterY = this.translateY + this.height/2;
-
-        var transform = 'translate('+ this.translateX +', '+ this.translateY +')' +
+        var translate= 'translate('+ this.translateX +', '+ this.translateY +')' +
             'rotate('+this.angle_deg +')';
-
-
-        this.animateAnt(time_exec);
+        this.animateAnt(time_exec+this.dimension*1000);
         _this.transition()
-            .delay(300)
+            .duration(this.dimension*1000)
+            .attr("transform", rotate)
+            .transition()
+            .attr("transform", translate)
             .duration(time_exec)
-            .attr("transform", transform);
     },
 
     animateAnt: function(time_exec) {
@@ -370,45 +369,43 @@ var Ant = {
         ant.append("path")
             .attr("id", "leg"+1)
             .attr('stroke', 'black')
-            .attr('stroke-width', 3*d)
+            .attr('stroke-width', 2*d)
             .attr("d", createLeg(25, 37.5, 2.5, 10, d));
 
         ant.append("path")
             .attr("id", "leg"+2)
             .attr('stroke', 'black')
-            .attr('stroke-width', 3*d)
+            .attr('stroke-width', 2*d)
             .attr("d", createLeg(25, 37.5, 2.5, 37.5, d));
 
         ant.append("path")
             .attr("id", "leg"+3)
             .attr('stroke', 'black')
-            .attr('stroke-width', 3*d)
+            .attr('stroke-width', 2*d)
             .attr("d", createLeg(25, 37.5, 47.5, 10, d));
 
         ant.append("path")
             .attr("id", "leg"+4)
             .attr('stroke', 'black')
-            .attr('stroke-width', 3*d)
+            .attr('stroke-width', 2*d)
             .attr("d", createLeg(25, 37.5, 47.5, 37.5, d));
 
         ant.append("path")
             .attr("id", "leg"+5)
             .attr('stroke', 'black')
-            .attr('stroke-width', 3*d)
+            .attr('stroke-width', 2*d)
             .attr("d", createLeg(25, 37.5, 2.5, 60, d));
 
         ant.append("path")
             .attr("id", "leg"+6)
             .attr('stroke', 'black')
-            .attr('stroke-width', 3*d)
+            .attr('stroke-width', 2*d)
             .attr("d", createLeg(25, 37.5, 47.5, 60, d));
 
         ant.attr('transform', 'translate('+ x +', '+ y +') ' +
             'rotate('+this.angle_deg+ ')');
         this.translateX = x;
         this.translateY = y;
-        this.elementCenterX = this.width/2 + x;
-        this.elementCenterY = this.height/2 + y;
     },
 
     parseTranslate: function(transform) {
@@ -426,6 +423,7 @@ var Ant = {
     degree: function(ex, ey) {
         var dy = ey -this.translateY;
         var dx = ex - this.translateX;
+
 
         var ipo = Math.sqrt(Math.pow(dx,2) + Math.pow(dy, 2));
         var theta;
@@ -451,7 +449,7 @@ var Ant = {
             theta = this.angle_deg;
         }
 
-        theta = Math.atan2(dy, dx) * this.toDegree;
+        //theta = Math.atan2(dy, dx) * this.toDegree;
         return theta;
     },
 
