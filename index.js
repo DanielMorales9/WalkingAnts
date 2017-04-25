@@ -60,9 +60,9 @@ AntDispatcher = {
 
         d3.select('#plain').attr("toggle", true);
 
-        d3.select("#plain").on('mousemove', function (event) {
+        d3.select("#plain").on('mousemove', function (data, index) {
 
-            var evt1 = event || window.event;
+            var evt1 = window.event  || d3.event;
             ants.forEach(function (element) {
                 //element.walkAgainst(evt1);
 
@@ -74,18 +74,18 @@ AntDispatcher = {
 
         });
 
-        d3.select("#plain").on('click',  function(event) {
-            var evt0 = event || window.event;
-
+        d3.select("#plain").on('click',  function(data, index) {
+            var evt0 = window.event  || d3.event;
+            console.log(data, index);
             ants.forEach(function(element){
                 element.stopAnt(10);
             });
 
             if (this.toggle) {
                 d3.selectAll(".eyes").attr("fill", "red");
-                d3.select("#plain").on('mousemove', function (event) {
+                d3.select("#plain").on('mousemove', function (data, index) {
 
-                    var evt1 = event || window.event;
+                    var evt1 = window.event  || d3.event;
                     ants.forEach(function (element) {
                         //element.walkAgainst(evt1);
 

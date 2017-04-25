@@ -29,10 +29,6 @@ body{
     background-image:url("grass1.jpg");
 }
 
-g {
-    transform-origin: 50% 50%;
-}
-
 .center{
     text-align: center;
 }
