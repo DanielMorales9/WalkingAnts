@@ -2,7 +2,7 @@
 
 ##### InfoVis Project developed with [D3.js](https://d3js.org/) library.
 
-To play it, just open the index.html in your browser.
+To play it, just open the _index.html_ in your browser.
 
 -------------
 
