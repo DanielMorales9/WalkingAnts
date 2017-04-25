@@ -6,7 +6,7 @@ To play it, just open the index.html in your browser.
 
 -------------
 
-#How to use it
+# How to use it
 
 When the page is loaded you will see thirty ants with different dimension walking against the mouse, 
 but when you click they will flee from the mouse pointer. You can change the behavior by clicking the mouse. 
